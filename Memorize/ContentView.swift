@@ -1,20 +1,31 @@
-//
-//  ContentView.swift
-//  Memorize
-//
-//  Created by Miguel Del Corso on 15/07/2025.
-//
-
 import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        HStack {
+            CardView(isFaceUp: true)
+            CardView()
+            CardView()
+            CardView()
         }
+    }
+}
+
+struct CardView: View {
+    var isFaceUp: Bool = false
+    var body: some View {
+        ZStack {
+            if isFaceUp {
+                RoundedRectangle(cornerRadius: 12)
+                    .strokeBorder(lineWidth: 2)
+                Text("👻")
+                    .font(.largeTitle)
+            } else {
+                RoundedRectangle(cornerRadius: 12)
+            }
+        }
+        .foregroundStyle(.orange)
+        .imageScale(.small)
         .padding()
     }
 }
