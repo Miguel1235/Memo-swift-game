@@ -2,37 +2,21 @@ import SwiftUI
 
 struct ContentView: View
 {
-    @State private var cardCount = 4
     let emojis = ["👻", "🎃","💀", "🕷️", "👹", "😈"]
     var body: some View {
-        VStack {
-            LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
-                ForEach(0..<cardCount, id: \.self) {
-                    CardView(content: emojis[$0])
+        NavigationStack {
+            ScrollView {
+                LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
+                    ForEach(emojis, id: \.self) {
+                        CardView(content: $0)
+                    }
                 }
+                .padding()
             }
-            Spacer()
-            HStack {
-                CardCountAdjuster(by: 1, symbol: "plus")
-                CardCountAdjuster(by: -1, symbol: "minus")
-            }
-            .padding()
+            .navigationTitle("Memo game")
         }
-        
-    }
-    
-    func CardCountAdjuster(by offset: Int, symbol: String) -> some View {
-        Button {
-            cardCount += offset
-        } label: {
-            Image(systemName: symbol)
-        }
-        .buttonBorderShape(.circle)
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
-
     }
 }
-
 
 
 struct CardView: View {
