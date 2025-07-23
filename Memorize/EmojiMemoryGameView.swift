@@ -7,13 +7,21 @@ struct EmojiMemoryGameView: View
         NavigationStack {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 85), spacing: 0)], spacing: 10) {
-                    ForEach(viewModel.cards.indices, id: \.self) {
-                        CardView(viewModel.cards[$0])
-                            .aspectRatio(2/3, contentMode: .fit)
-                            .padding(4)
+                    ForEach(viewModel.cards) { card in
+                        if card.isMatched {
+                            EmptyView()
+                        } else {
+                            CardView(card)
+                                .aspectRatio(2/3, contentMode: .fit)
+                                .padding(4)
+                                .onTapGesture {
+                                    viewModel.choose(card)
+                                }
+                        }
                     }
                 }
                 .padding()
+                .animation(.default, value: viewModel.cards)
             }
             Button("Shuffle") {
                 viewModel.shuffle()
@@ -47,9 +55,9 @@ struct CardView: View {
         .frame(minHeight: 50)
         .foregroundStyle(.orange)
         .imageScale(.small)
-//        .onTapGesture {
-//            isFaceUp.toggle()
-//        }
+        //        .onTapGesture {
+        //            isFaceUp.toggle()
+        //        }
     }
 }
 
